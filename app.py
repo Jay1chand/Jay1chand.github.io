@@ -23,6 +23,8 @@ from lcapy import texpr, s
 import matplotlib.patches as patches
 app = Flask(__name__)  # Since your HTML is in "main/"
 
+app.secret_key = os.getenv("SECRET_KEY", "defaultsecret")
+
 @app.route('/')
 def index():
     return render_template('homepage.html')
