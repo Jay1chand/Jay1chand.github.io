@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QPSK Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+            padding: 20px;
+        }
+        h1 { color: #333; }
+        p.description {
+            background: #eef2f7;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>QPSK Simulation</h1>
+    <p class="description">
+        This tool simulates Quadrature Phase Shift Keying (QPSK), a digital modulation scheme used in modern communication systems.  
+        You can specify the number of symbols to transmit, the noise power for the Additive White Gaussian Noise (AWGN) channel,  
+        and phase noise strength. The simulation generates constellation and signal plots to visualize how noise and distortions  
+        affect the QPSK-modulated signal.
+    </p>
+
+    <form method="POST">
+        <label>Number of Symbols:</label>
+        <input type="number" name="num_symbols" value="1000" step="1"><br><br>
+        <label>AWGN Noise Power:</label>
+        <input type="number" name="noise_power" value="0.01" step="0.001"><br><br>
+        <label>Phase Noise Strength:</label>
+        <input type="number" name="phase_noise" value="0.1" step="0.01"><br><br>
+        <button type="submit">Generate Plots</button>
+    </form>
+
+    {% if error %}
+        <p style="color:red;">Error: {{ error }}</p>
+    {% endif %}
+
+    {% if plots %}
+        {% for plot in plots %}
+            {{ plot | safe }}
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

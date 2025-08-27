@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Generator</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f4;
+        }
+        h1, h2, h3 { color: #333; }
+        form {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        input[type=radio] {
+            margin-right: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+        }
+        .note {
+            background: #e9f5ff;
+            border-left: 4px solid #007BFF;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Filter Generator</h1>
+
+    <div class="note">
+        <p>
+            This tool helps you generate both <b>Discrete-time</b> and <b>Continuous-time</b> filters.
+            You can input coefficients directly, specify poles/zeros, or choose common filter
+            families like <i>Butterworth</i> and <i>Bessel</i> for continuous-time designs.
+        </p>
+    </div>
+
+    <form method="POST">
+        <!-- Domain -->
+        <h3>Filter Domain</h3>
+        <label><input type="radio" name="contin" value="1" checked> Discrete</label>
+        <label><input type="radio" name="contin" value="0"> Continuous</label>
+        <br><br>
+
+        <!-- Discrete -->
+        <div class="card">
+            <h3>Discrete Filter Options</h3>
+            <label>Mode:</label><br>
+            <label><input type="radio" name="coeff_mode" value="1" checked> Coefficients</label>
+            <label><input type="radio" name="coeff_mode" value="0"> ZPK</label>
+            <br><br>
+
+            <label>Numerator (space separated):</label>
+            <input type="text" name="num">
+
+            <label>Denominator (space separated):</label>
+            <input type="text" name="den">
+
+            <label>Zeros:</label>
+            <input type="text" name="zeros">
+
+            <label>Poles:</label>
+            <input type="text" name="poles">
+
+            <label>Gain:</label>
+            <input type="text" name="gain">
+        </div>
+
+        <!-- Continuous -->
+        <div class="card">
+            <h3>Continuous Filter Options</h3>
+            <label>Type:</label><br>
+            <label><input type="radio" name="filt_type" value="1" checked> Butterworth</label>
+            <label><input type="radio" name="filt_type" value="0"> Bessel</label>
+            <br><br>
+
+            <label>Angular Frequency:</label>
+            <input type="text" name="omega">
+        </div>
+
+        <button type="submit">Generate Filter</button>
+    </form>
+
+    {% if result %}
+    <div class="card">
+        <h2>Results:</h2>
+        {{ result|safe }}
+    </div>
+    {% endif %}
+</body>
+</html>

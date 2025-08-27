@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transfer Function Plotter</title>
+</head>
+<body>
+    <h1>Transfer Function Plotter</h1>
+    <form method="POST">
+        <label>Enter Transfer Function H(s):</label><br>
+        <input type="text" name="tf_expr" value="s/(s+2)" style="width:300px;"><br><br>
+
+        <label>Select plots:</label><br>
+        <input type="checkbox" name="plots" value="1"> Pole-Zero Plot<br>
+        <input type="checkbox" name="plots" value="2"> Bode Plot<br>
+        <input type="checkbox" name="plots" value="3"> Nyquist Plot<br>
+        <input type="checkbox" name="plots" value="4"> Nichols Plot<br><br>
+
+        <button type="submit">Generate Plots</button>
+    </form>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    {% if results %}
+        {% for r in results %}
+            <h3>{{ r.description }}</h3>
+            {{ r.plot_html | safe }}
+            <hr>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

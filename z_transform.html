@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-Transform Calculator</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover { background-color: #0056b3; }
+        .error { color: red; }
+        .result { margin-top: 20px; }
+        .description {
+            background: #eef5ff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #007bff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Z-Transform Calculator</h1>
+
+        <div class="description">
+            <p>
+                The <b>Z-Transform</b> is a powerful mathematical tool used in 
+                <b>digital signal processing</b> to analyze discrete-time signals. 
+                It transforms a time-domain sequence \(x[n]\) into a function \(X(z)\) 
+                in the complex frequency domain.
+            </p>
+            <p>
+                Enter a discrete-time signal expression in terms of <code>n</code> 
+                (e.g., <code>cos(2*pi*f0*n*dt)</code> or <code>x(n-1)</code>). 
+                The calculator will compute:
+            </p>
+            <ul>
+                <li>The Z-Transform expression</li>
+                <li>A LaTeX-rendered mathematical form for clarity</li>
+            </ul>
+        </div>
+
+        <form method="POST">
+            <label>Enter discrete-time signal x(n):</label>
+            <input type="text" name="signal_expr" placeholder="e.g., cos(2*pi*f0*n*dt)" required>
+            <button type="submit">Compute Z-Transform</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if results %}
+            <div class="result">
+                {% for r in results %}
+                    <h3>{{ r.description }}</h3>
+                    <p><strong>Expression:</strong> {{ r.expr }}</p>
+                    <p><strong>LaTeX:</strong> \\( {{ r.latex }} \\)</p>
+                    <hr>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

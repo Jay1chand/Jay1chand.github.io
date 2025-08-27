@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverse Fourier Transform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type=text] {
+            padding: 8px;
+            width: 350px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .description {
+            margin-top: 20px;
+            max-width: 650px;
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 8px;
+            color: #856404;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Inverse Fourier Transform Calculator</h1>
+
+    <div class="description">
+        <p>
+            This tool computes the <strong>Inverse Fourier Transform</strong> of a given function 
+            in the frequency domain (ω). Enter an expression in terms of 
+            <code>omega</code> (for example, <code>1/(omega**2+1)</code>) and click 
+            <em>Compute</em>. The result will be displayed as a time-domain expression.
+        </p>
+    </div>
+
+    <form method="post">
+        <input type="text" name="expression" placeholder="Enter expression in omega (e.g. 1/(omega**2+1))" value="{{ expr }}">
+        <button type="submit">Compute</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h3>Result:</h3>
+        <p>{{ result }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>

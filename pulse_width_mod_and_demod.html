@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWM Modulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-container, .plot-container {
+            width: 80%;
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+        }
+        .description {
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>PWM Modulation Simulation</h1>
+
+        <div class="description">
+            <p><b>Pulse Width Modulation (PWM)</b> is a modulation technique where the width of pulses is varied in proportion to the amplitude of the input signal. 
+            It is widely used in power electronics, motor control, and communication systems.</p>
+            <ul>
+                <li><b>fs</b>: Sampling frequency used for digital simulation.</li>
+                <li><b>f_pwm</b>: Frequency of the PWM signal (carrier).</li>
+                <li><b>Duration</b>: Total time for simulation (in seconds).</li>
+                <li><b>Seed</b>: Random seed for reproducibility.</li>
+            </ul>
+        </div>
+
+        <form method="POST">
+            <label> Sampling Frequency (fs):</label>
+            <input type="number" name="fs" value="{{ request.form.fs or 5000 }}">
+            
+            <label> PWM Frequency (f_pwm):</label>
+            <input type="number" name="f_pwm" value="{{ request.form.f_pwm or 50 }}">
+            
+            <label>Duration (s): </label>
+            <input type="text" name="duration" value="{{ request.form.duration or 0.05 }}">
+            
+            <label>Seed: </label>
+            <input type="number" name="seed" value="{{ request.form.seed or 1 }}">
+            
+            <input type="submit" value="Run Simulation">
+        </form>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+    <div class="plot-container">
+        {{ plot_html | safe }}
+    </div>
+</body>
+</html>

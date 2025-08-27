@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DTFT Calculator</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f4;
+        }
+        h1 { color: #333; }
+        form {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+        }
+        .readme {
+            background: #eaf4ff;
+            border-left: 5px solid #007BFF;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DTFT Calculator</h1>
+
+    <div class="readme">
+        <p>
+            This tool computes the <b>Discrete-Time Fourier Transform (DTFT)</b> of a given signal \(x(n)\).
+            The DTFT is used to analyze the frequency-domain behavior of discrete-time signals.
+            You can input expressions like <code>delta(n-m)</code>, <code>cos(2*pi*f0*n*dt)</code>, 
+            or <code>sinc(n)</code>, and the calculator will return both the original signal representation 
+            and its DTFT in symbolic and LaTeX form.
+        </p>
+    </div>
+
+    <form method="POST">
+        <label for="expression">Enter your signal \(x(n)\):</label><br>
+        <small>Example: delta(n-m), cos(2*pi*f0*n*dt), sinc(n)</small><br><br>
+        <input type="text" id="expression" name="expression" placeholder="e.g. delta(n-m)" required>
+        <button type="submit">Compute DTFT</button>
+    </form>
+
+    {% if error %}
+        <div class="card" style="color:red;">
+            <strong>Error:</strong> {{ error }}
+        </div>
+    {% endif %}
+
+    {% if result %}
+        <div class="card">
+            <h3>Original Signal:</h3>
+            <p><b>Expression:</b> {{ result.original_expr }}</p>
+            <p><b>LaTeX:</b> \\[ {{ result.original_latex }} \\]</p>
+        </div>
+
+        <div class="card">
+            <h3>DTFT:</h3>
+            <p><b>Expression:</b> {{ result.transform_expr }}</p>
+            <p><b>LaTeX:</b> \\[ {{ result.transform_latex }} \\]</p>
+        </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Code Modulation and Demodulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .description, .form-container, .result-container {
+            width: 80%;
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="description">
+        <h2>About Pulse Code Modulation (PCM) and Demodulation</h2>
+        <p>
+            Pulse Code Modulation (PCM) is a digital representation of an analog signal. 
+            The process involves <strong>sampling</strong> the analog signal at discrete time intervals, 
+            <strong>quantizing</strong> the sampled values into a finite set of levels, and 
+            <strong>encoding</strong> these values into binary form.  
+        </p>
+        <p>
+            This page allows you to experiment with PCM by selecting parameters such as 
+            <em>sampling frequency</em>, <em>message frequency</em>, <em>amplitude</em>, 
+            <em>number of bits per sample</em>, and <em>signal duration</em>.  
+            The demodulation process reconstructs the original signal from the quantized samples.
+        </p>
+    </div>
+
+    <div class="form-container">
+        <h1>Pulse Code Modulation and Demodulation</h1>
+        <form method="POST">
+            <label>Sampling Frequency (Hz):</label>
+            <input type="number" step="any" name="sampling_frequency" value="{{ request.form.sampling_frequency or 100 }}">
+            
+            <label>Message Frequency (Hz):</label>
+            <input type="number" step="any" name="message_frequency" value="{{ request.form.message_frequency or 25 }}">
+            
+            <label>Amplitude:</label>
+            <input type="number" step="any" name="amplitude" value="{{ request.form.amplitude or 1 }}">
+            
+            <label>Number of Bits per Sample:</label>
+            <input type="number" step="1" name="bits" value="{{ request.form.bits or 3 }}">
+            
+            <label>Signal Duration (seconds):</label>
+            <input type="number" step="any" name="duration" value="{{ request.form.duration or 2 }}">
+            
+            <input type="submit" value="Submit">
+        </form>
+        
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+
+    {% if result_text %}
+    <div class="result-container">
+        <h2>Results</h2>
+        <pre>{{ result_text }}</pre>
+    </div>
+    {% endif %}
+</body>
+</html>

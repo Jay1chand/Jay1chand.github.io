@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Modulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-container, .plot-container, .description-container {
+            width: 80%;
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="description-container">
+        <h1>Delta Modulation</h1>
+        <p>
+            Delta Modulation (DM) is a simplified form of Pulse Code Modulation (PCM) 
+            where only the change in amplitude is encoded. Instead of encoding the 
+            absolute sample value, DM encodes whether the signal has increased or 
+            decreased compared to the previous sample.  
+        </p>
+        <p>
+            Use the form below to set the sampling frequency, message frequencies, amplitudes, 
+            step size (Δ), and duration to visualize the modulated and demodulated signals.
+        </p>
+    </div>
+
+    <div class="form-container">
+        <form method="POST">
+            <label>Sampling Frequency (Hz):</label>
+            <input type="number" step="any" name="fs" value="{{ request.form.fs or 10000 }}">
+            
+            <label>Cosine Message Frequency (Hz):</label>
+            <input type="number" step="any" name="fm_cos" value="{{ request.form.fm_cos or 50 }}">
+            
+            <label>Sine Message Frequency (Hz):</label>
+            <input type="number" step="any" name="fm_sin" value="{{ request.form.fm_sin or 120 }}">
+            
+            <label>Cosine Amplitude:</label>
+            <input type="number" step="any" name="Am_cos" value="{{ request.form.Am_cos or 1 }}">
+            
+            <label>Sine Amplitude:</label>
+            <input type="number" step="any" name="Am_sin" value="{{ request.form.Am_sin or 1 }}">
+            
+            <label>Step Size (Δ - delta_epsilon):</label>
+            <input type="number" step="any" name="delta" value="{{ request.form.delta or 0.1 }}">
+            
+            <label>Duration (seconds):</label>
+            <input type="number" step="any" name="duration" value="{{ request.form.duration or 0.05 }}">
+            
+            <input type="submit" value="Plot">
+        </form>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+    
+    <div class="plot-container">
+        {{ plot_html | safe }}
+    </div>
+</body>
+</html>

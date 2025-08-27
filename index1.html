@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phasor & Noise Voltage Simulator</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        input, select { margin: 5px 0; padding: 5px; width: 100%; }
+        .container { max-width: 600px; margin: auto; }
+        .results { background: #f0f0f0; padding: 15px; margin-top: 15px; }
+        .error { color: red; }
+        .readme { background: #e9f5ff; padding: 15px; border-left: 5px solid #007acc; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Phasor / Waveform & Noise Voltage Simulator</h1>
+
+    <!-- README Style Description -->
+    <div class="readme">
+        <h3>About this Simulation</h3>
+        <p>
+            This simulator allows you to experiment with phasors, time-domain waveforms, 
+            and noise voltage. You can select whether you want to simulate a <b>phasor (frequency-domain)</b> 
+            or a <b>waveform (time-domain)</b> by choosing the input option. You can also 
+            superimpose a specified <b>noise voltage</b> to analyze how it affects your signal. 
+            This is useful for understanding concepts in <i>signal processing, electrical circuits, and communication systems</i>.
+        </p>
+    </div>
+
+    <form method="POST">
+        <label>Enter 1 for Phasor, 0 for Waveform:</label>
+        <input type="number" name="kess" required min="0" max="1">
+
+        <div id="phasor_input">
+            <label>Phasor Value (number):</label>
+            <input type="number" name="phasor_val">
+        </div>
+
+        <div id="wave_input">
+            <label>Waveform Expression (e.g., 2*sin(7*t)):</label>
+            <input type="text" name="wave_expr">
+        </div>
+
+        <label>Noise Voltage Value (integer):</label>
+        <input type="number" name="noise_val" required>
+
+        <button type="submit">Simulate</button>
+    </form>
+
+    {% if error %}
+        <div class="error">Error: {{ error }}</div>
+    {% endif %}
+
+    {% if results %}
+        <div class="results">
+            <h3>Results:</h3>
+            {% for r in results %}
+                <p>{{ r }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>

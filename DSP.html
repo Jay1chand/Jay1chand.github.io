@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DSP Analyzer</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            background: #f9f9f9; 
+        }
+        .container { 
+            max-width: 650px; 
+            margin: auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0px 0px 10px #ccc; 
+        }
+        h2 { 
+            text-align: center; 
+            color: #007BFF; 
+        }
+        p.intro { 
+            background: #eef6ff; 
+            padding: 10px; 
+            border-left: 5px solid #007BFF; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            margin-bottom: 20px; 
+        }
+        input, textarea { 
+            width: 100%; 
+            margin: 5px 0; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+        }
+        button { 
+            background: #007BFF; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+        }
+        button:hover { background: #0056b3; }
+        .result { 
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #f0f0f0; 
+            border-radius: 6px; 
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>🔬 DSP Analyzer</h2>
+    
+    <!-- Short description / README -->
+    <p class="intro">
+        This tool allows you to analyze Discrete-Time Systems. 
+        You can enter input sequences and a system expression to test properties such as 
+        <b>linearity, time invariance, BIBO stability</b>, and compute both 
+        <b>linear and circular convolutions</b>. 
+        It helps students and engineers quickly check DSP concepts in practice.
+    </p>
+
+    <form method="POST">
+        <label>Enter first sequence (x):</label>
+        <input type="text" name="x_seq" placeholder="e.g., 1 2 3">
+
+        <label>Enter second sequence (y):</label>
+        <input type="text" name="y_seq" placeholder="e.g., 4 5 6">
+
+        <label>Enter system expression (in x):</label>
+        <input type="text" name="system_expr" placeholder="e.g., 2*x + 3">
+
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        {% if result.error %}
+            <p><b>Error:</b> {{ result.error }}</p>
+        {% else %}
+            <p><b>System:</b> {{ result.system_expr }}</p>
+            <p><b>Linear Convolution:</b> {{ result.lin_conv }}</p>
+            <p><b>Circular Convolution:</b> {{ result.circ_conv }}</p>
+            <p><b>Linearity:</b> {{ result.linearity }}</p>
+            <p><b>Time Invariance:</b> {{ result.time_invariance }}</p>
+            <p><b>BIBO Stability:</b> {{ result.bibo }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>

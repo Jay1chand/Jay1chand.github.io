@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DFT and IDFT Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background: #f5f5f5; }
+        .container { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0px 0px 10px #aaa; }
+        h1 { text-align: center; }
+        p.description { background: #eef6ff; padding: 12px; border-left: 5px solid #007BFF; border-radius: 5px; }
+        input[type="text"] { width: 100%; padding: 8px; margin: 10px 0; }
+        input[type="submit"] { padding: 10px 20px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input[type="submit"]:hover { background: #0056b3; }
+        .results { margin-top: 20px; }
+        pre { background: #eee; padding: 10px; border-radius: 5px; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DFT & IDFT Calculator</h1>
+
+        <!-- Paragraph explanation -->
+        <p class="description">
+            This tool allows you to compute the <b>Discrete Fourier Transform (DFT)</b> of a given sequence and its 
+            <b>Inverse Discrete Fourier Transform (IDFT)</b>. Enter your input sequence, and the system will 
+            display the frequency-domain representation (X[k]) and reconstruct the original sequence using IDFT.
+        </p>
+
+        <!-- Input form -->
+        <form method="POST">
+            <label for="sequence">Enter sequence x[n] (space separated):</label>
+            <input type="text" id="sequence" name="sequence" placeholder="Example: 1 2 3 4" required>
+            <input type="submit" value="Compute DFT/IDFT">
+        </form>
+
+        <!-- Results section -->
+        {% if result %}
+            <div class="results">
+                {% if result.error %}
+                    <p class="error">❌ Error: {{ result.error }}</p>
+                {% else %}
+                    <h3>Original Sequence:</h3>
+                    <pre>{{ result.sequence }}</pre>
+
+                    <h3>DFT X[k]:</h3>
+                    <pre>{% for line in result.dft %}{{ line }}<br>{% endfor %}</pre>
+
+                    <h3>IDFT (reconstructed x[n]):</h3>
+                    <pre>{% for line in result.idft %}{{ line }}<br>{% endfor %}</pre>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

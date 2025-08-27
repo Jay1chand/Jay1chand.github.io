@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plots</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f4f4f9;
+        }
+        h1 { color: #333; }
+        .description {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .plot { 
+            margin-bottom: 50px; 
+            padding: 10px; 
+            background: #fff; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
+        }
+    </style>
+</head>
+<body>
+    <h1>Generated Plots</h1>
+
+    <div class="description">
+        <h3>About This Tool</h3>
+        <p>
+            This page displays dynamically generated plots based on your input expressions 
+            or predefined signal processing tasks. Each plot is interactive 
+            (zoom, pan, hover details) and rendered using <strong>Matplotlib</strong> with 
+            web integration.
+        </p>
+        <p>
+            You can use this feature to visualize signals, transformations, and other 
+            computations for better understanding.
+        </p>
+    </div>
+
+    {% for plot_html in plots %}
+        <div class="plot">
+            {{ plot_html | safe }}
+        </div>
+    {% endfor %}
+</body>
+</html>

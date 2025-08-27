@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle LQR Simulation</title>
+    <style>
+        body { font-family: Arial; background: #f0f0f0; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        .info-container, .form-container, .result-container { width: 80%; background: white; padding: 20px; margin: 20px 0; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="number"] { width: 100%; padding: 8px; margin: 4px 0; }
+        button { padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; margin-top: 15px; }
+        button:hover { background: #218838; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <!-- Info / README section -->
+    <div class="info-container">
+        <h1>Vehicle LQR Simulation</h1>
+        <p>
+            This simulation demonstrates the use of <strong>Linear Quadratic Regulator (LQR)</strong> control 
+            for vehicle trajectory tracking. By tuning the parameters such as simulation time, velocity, 
+            steering amplitude, and wheelbase, you can observe how the vehicle responds to steering inputs 
+            and how well it follows the reference path. 
+        </p>
+        <p>
+            Adjusting the inputs allows you to study the effect of constraints like maximum steering angle 
+            and reference offsets on vehicle stability and path-following performance.
+        </p>
+    </div>
+
+    <!-- Form -->
+    <div class="form-container">
+        <form method="post">
+            <label for="sim_time">Simulation Time (s)</label>
+            <input type="number" name="sim_time" id="sim_time" step="0.1" value="{{ defaults['sim_time'] }}">
+
+            <label for="points">Number of Points</label>
+            <input type="number" name="points" id="points" value="{{ defaults['points'] }}">
+
+            <label for="velocity">Velocity (m/s)</label>
+            <input type="number" name="velocity" id="velocity" step="0.1" value="{{ defaults['velocity'] }}">
+
+            <label for="steer_amp">Steering Amplitude (rad)</label>
+            <input type="number" name="steer_amp" id="steer_amp" step="0.01" value="{{ defaults['steer_amp'] }}">
+
+            <label for="ref_offset">Reference Offset (m)</label>
+            <input type="number" name="ref_offset" id="ref_offset" step="0.1" value="{{ defaults['ref_offset'] }}">
+
+            <label for="wheelbase">Wheelbase (m)</label>
+            <input type="number" name="wheelbase" id="wheelbase" step="0.1" value="{{ defaults['wheelbase'] }}">
+
+            <label for="maxsteer">Max Steering (rad)</label>
+            <input type="number" name="maxsteer" id="maxsteer" step="0.01" value="{{ defaults['maxsteer'] }}">
+
+            <button type="submit">Simulate Vehicle</button>
+        </form>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Results -->
+    <div class="result-container">
+        {{ plot_html|safe }}
+    </div>
+</body>
+</html>

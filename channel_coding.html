@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Channel Coding Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 900px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="checkbox"] {
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        a.home {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            background: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        a.home:hover {
+            background: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home">← Back to Homepage</a>
+        <h1>Channel Coding Simulation</h1>
+        <p class="description">
+            This simulation demonstrates basic channel coding techniques such as Huffman Coding, Run Length Encoding (RLE), 
+            and LZW Compression. You can input a message, choose a coding algorithm, and optionally apply noise to the channel 
+            to observe how errors affect the encoded data.
+        </p>
+        <form method="POST">
+            <label for="algorithm">Choose Algorithm:</label>
+            <select id="algorithm" name="algorithm" required>
+                <option value="huffman" {% if request.form.get('algorithm') == 'huffman' %}selected{% endif %}>Huffman Coding</option>
+                <option value="rle" {% if request.form.get('algorithm') == 'rle' %}selected{% endif %}>Run Length Encoding (RLE)</option>
+                <option value="lzw" {% if request.form.get('algorithm') == 'lzw' %}selected{% endif %}>LZW Compression</option>
+            </select>
+
+            <label for="message">Input Message (string):</label>
+            <input type="text" id="message" name="message" value="{{ request.form.get('message', '') }}" required>
+
+            <label>
+                <input type="checkbox" name="apply_noise" {% if request.form.get('apply_noise') %}checked{% endif %}>
+                Apply Noise in Channel
+            </label>
+
+            <button type="submit">Simulate</button>
+        </form>
+
+        {% if error %}
+        <div class="error">Error: {{ error }}</div>
+        {% endif %}
+
+        {% if result %}
+        <div class="result">
+            <h3>Simulation Result</h3>
+            <pre>{{ result }}</pre>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

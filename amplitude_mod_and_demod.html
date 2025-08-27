@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amplitude Modulation and Demodulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-container, .plot-container {
+            width: 80%;
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Amplitude Modulation and Demodulation</h1>
+        <p class="description">
+            Amplitude Modulation (AM) is a modulation technique where the amplitude of a high-frequency carrier wave 
+            is varied in proportion to the message (baseband) signal. In this simulation, you can visualize how the 
+            carrier and baseband signals interact to form the AM signal, and also see how demodulation extracts the 
+            original message. Adjust the parameters below to experiment with different conditions.
+        </p>
+        <form method="POST">
+            <label>Sampling Frequency (Hz):</label>
+            <input type="number" step="any" name="fs" value="{{ request.form.fs or 4096000000 }}">
+            <label>Baseband Frequency (Hz):</label>
+            <input type="number" step="any" name="fb" value="{{ request.form.fb or 64000000 }}">
+            <label>Amplitude:</label>
+            <input type="number" step="any" name="A" value="{{ request.form.A or 2 }}">
+            <label>FFT Size:</label>
+            <input type="number" step="1" name="N_fft" value="{{ request.form.N_fft or 2048 }}">
+            <label>Carrier Frequency (Hz):</label>
+            <input type="number" step="any" name="fc" value="{{ request.form.fc or 900000000 }}">
+            <input type="submit" value="Plot">
+        </form>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+    <div class="plot-container">
+        {{ plot_html | safe }}
+    </div>
+</body>
+</html>

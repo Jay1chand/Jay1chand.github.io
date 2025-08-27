@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Quadrature Amplitude Modulation and Demodulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-container, .result-container {
+            width: 80%;
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .description {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Complex QAM Modulation and Demodulation</h1>
+
+        <div class="description">
+            Quadrature Amplitude Modulation (QAM) is a modulation scheme that combines 
+            amplitude and phase modulation by transmitting two signals (in-phase and 
+            quadrature components) on the same carrier frequency. Complex QAM allows 
+            efficient use of bandwidth and is widely used in communication systems 
+            such as Wi-Fi, LTE, and digital TV.
+        </div>
+
+        <form method="post">
+            <input type="text" name="fs" placeholder="Sampling Frequency (Hz)" value="{{ fs or 4096e6 }}">
+            <input type="text" name="fb1" placeholder="Baseband Frequency 1 (Hz)" value="{{ fb1 or 64e6 }}">
+            <input type="text" name="fb2" placeholder="Baseband Frequency 2 (Hz)" value="{{ fb2 or 64e6 }}">
+            <input type="text" name="A1" placeholder="Amplitude 1" value="{{ A1 or 2 }}">
+            <input type="text" name="A2" placeholder="Amplitude 2" value="{{ A2 or 1 }}">
+            <input type="text" name="N_fft" placeholder="FFT Size" value="{{ N_fft or 2048 }}">
+            <input type="text" name="fc" placeholder="Carrier Frequency (Hz)" value="{{ fc or 900e6 }}">
+            <br>
+            <button type="submit">Generate Plots</button>
+        </form>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+
+    {% if plot_html %}
+    <div class="result-container">
+        <h2>Plots</h2>
+        {{ plot_html|safe }}
+    </div>
+    {% endif %}
+</body>
+</html>

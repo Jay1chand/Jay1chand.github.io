@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequency Modulation and Demodulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 85%;
+            max-width: 900px;
+            margin: 20px 0;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin-top: 0;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        a.home {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            background: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        a.home:hover {
+            background: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <a href="/" class="home">← Back to Homepage</a>
+
+        <!-- Description / README -->
+        <div class="card">
+            <h1>Frequency Modulation and Demodulation</h1>
+            <p>
+                Frequency Modulation (FM) is a technique where the frequency of a carrier signal 
+                is varied in accordance with the message signal. This method is widely used in 
+                radio broadcasting and communication systems due to its robustness against noise.
+                <br><br>
+                Demodulation is the process of extracting the original message signal from the 
+                modulated carrier. In this tool, you can experiment with different parameters 
+                such as message frequency, carrier frequency, amplitude, frequency sensitivity (kf), 
+                and observe both modulation and demodulation in real-time plots.
+            </p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="card">
+            <h2>Input Parameters</h2>
+            <form method="POST">
+                <label>Sampling Frequency (Hz):</label>
+                <input type="number" step="any" name="fs" value="{{ request.form.fs or 10000 }}">
+
+                <label>Message Frequency (Hz):</label>
+                <input type="number" step="any" name="fm" value="{{ request.form.fm or 50 }}">
+
+                <label>Carrier Frequency (Hz):</label>
+                <input type="number" step="any" name="fc" value="{{ request.form.fc or 500 }}">
+
+                <label>Amplitude:</label>
+                <input type="number" step="any" name="Am" value="{{ request.form.Am or 1 }}">
+
+                <label>Frequency Sensitivity (kf):</label>
+                <input type="number" step="any" name="kf" value="{{ request.form.kf or 100 }}">
+
+                <label>Duration (seconds):</label>
+                <input type="number" step="any" name="duration" value="{{ request.form.duration or 0.01 }}">
+
+                <input type="submit" value="Generate Plot">
+            </form>
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Plot Results -->
+        <div class="card">
+            <h2>Results</h2>
+            {{ plot_html | safe }}
+        </div>
+    </div>
+</body>
+</html>
